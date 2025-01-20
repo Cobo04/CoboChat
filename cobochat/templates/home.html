@@ -6,7 +6,11 @@
           <div class="media-body ml-4">
             <div class="article-metadata">
               <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }} - {{ post.author.account_type }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d: %I:%M%p') }}</small>
+              <small class="text-muted" 
+                data-post-date="{{ post.date_posted.isoformat() + 'Z'}}">
+                <!-- placeholder date text -->
+                Yelling at Cobo
+              </small>
             </div>
             <h2><a class="article-title" href="{{ url_for('post', post_id = post.id) }}">{{ post.title }}</a></h2>
             <hr>
@@ -43,43 +47,5 @@
           {% endif %}
       {% endfor %}
     </div>
-<script>
-  const sendLike = async (user_id, post_id) => {
-  const formData = new FormData();
-  formData.append("user_id", user_id);
-  formData.append("post_id", post_id)
-  const response = await fetch("{{ url_for('api_like') }}", {
-      method: "POST",
-      body: formData
-  });
-
-  const json = await response.json();
-  let preData = Number(document.getElementById(`post_likes_${post_id}`).innerHTML);
-
-  if (json['is_liked']) {
-      document.getElementById(`post_likes_${post_id}`).innerHTML = preData + 1;
-  } else {
-      document.getElementById(`post_likes_${post_id}`).innerHTML = preData - 1;
-  }
-  };
-
-  const sendDislike = async (user_id, post_id) => {
-  const formData = new FormData();
-  formData.append("user_id", user_id);
-  formData.append("post_id", post_id)
-  const response = await fetch("{{ url_for('api_dislike') }}", {
-      method: "POST",
-      body: formData
-  });
-
-  const json = await response.json();
-  let preData = Number(document.getElementById(`post_dislikes_${post_id}`).innerHTML);
-
-  if (json['is_disliked']) {
-      document.getElementById(`post_dislikes_${post_id}`).innerHTML = preData + 1;
-  } else {
-      document.getElementById(`post_dislikes_${post_id}`).innerHTML = preData - 1;
-  }
-  };
-</script>
+    <script src="../static/postUtils.js"></script> 
 {% endblock content %}

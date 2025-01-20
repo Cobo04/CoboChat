@@ -6,7 +6,11 @@
           <div class="media-body ml-4">
             <div class="article-metadata">
               <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }} - {{ post.author.account_type }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d: %I:%M%p') }}</small>
+              <small class="text-muted" 
+                data-post-date="{{ post.date_posted.isoformat() + 'Z'}}">
+                <!-- placeholder date text -->
+                Yelling at Cobo
+              </small>
               {% if current_user.account_type == 'Owner' or current_user.account_type == 'Administrator'%}
                 <!-- <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('update_post', post_id = post.id) }}">Edit</a> MAKE THIS A THING -->
                 <button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
@@ -50,4 +54,5 @@
           {% endif %}
       {% endfor %}
     </div>
+    <script src="../static/postUtils.js"></script> 
 {% endblock content %}
